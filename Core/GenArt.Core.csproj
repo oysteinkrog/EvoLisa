@@ -69,6 +69,7 @@
     <Compile Include="AST\DnaPolygon.cs" />
     <Compile Include="Classes\FileUtil.cs" />
     <Compile Include="Classes\FitnessCalculator.cs" />
+    <Compile Include="Classes\MathUtils.cs" />
     <Compile Include="Classes\Renderer.cs" />
     <Compile Include="Classes\Serializer.cs" />
     <Compile Include="Classes\Settings.cs" />
