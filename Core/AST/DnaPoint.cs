@@ -35,35 +35,16 @@ namespace GenArt.AST
 
             if (Tools.WillMutate(Settings.ActiveMovePointMidMutationRate))
             {
-                X =
-                    Math.Min(
-                        Math.Max(0,
-                                 X +
-                                 Tools.GetRandomNumber(-Settings.ActiveMovePointRangeMid,
-                                                       Settings.ActiveMovePointRangeMid)), Tools.MaxWidth);
-                Y =
-                    Math.Min(
-                        Math.Max(0,
-                                 Y +
-                                 Tools.GetRandomNumber(-Settings.ActiveMovePointRangeMid,
-                                                       Settings.ActiveMovePointRangeMid)), Tools.MaxHeight);
+                X = MathUtils.Clamp(X + Tools.GetRandomNumber(-Settings.ActiveMovePointRangeMid, Settings.ActiveMovePointRangeMid), 0, Tools.MaxWidth);
+                Y = MathUtils.Clamp(Y + Tools.GetRandomNumber(-Settings.ActiveMovePointRangeMid, Settings.ActiveMovePointRangeMid), 0, Tools.MaxHeight);
                 drawing.SetDirty();
             }
 
             if (Tools.WillMutate(Settings.ActiveMovePointMinMutationRate))
             {
-                X =
-                    Math.Min(
-                        Math.Max(0,
-                                 X +
-                                 Tools.GetRandomNumber(-Settings.ActiveMovePointRangeMin,
-                                                       Settings.ActiveMovePointRangeMin)), Tools.MaxWidth);
-                Y =
-                    Math.Min(
-                        Math.Max(0,
-                                 Y +
-                                 Tools.GetRandomNumber(-Settings.ActiveMovePointRangeMin,
-                                                       Settings.ActiveMovePointRangeMin)), Tools.MaxHeight);
+                X = MathUtils.Clamp(X + Tools.GetRandomNumber(-Settings.ActiveMovePointRangeMin, Settings.ActiveMovePointRangeMin), 0, Tools.MaxWidth);
+                Y = MathUtils.Clamp(Y + Tools.GetRandomNumber(-Settings.ActiveMovePointRangeMin, Settings.ActiveMovePointRangeMin), 0, Tools.MaxHeight);
+
                 drawing.SetDirty();
             }
         }

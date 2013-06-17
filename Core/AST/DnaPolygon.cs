@@ -21,8 +21,8 @@ namespace GenArt.AST
             for (int i = 0; i < Settings.ActivePointsPerPolygonMin; i++)
             {
                 var point = new DnaPoint();
-                point.X = Math.Min(Math.Max(0, origin.X + Tools.GetRandomNumber(-3, 3)), Tools.MaxWidth);
-                point.Y = Math.Min(Math.Max(0, origin.Y + Tools.GetRandomNumber(-3, 3)), Tools.MaxHeight);
+                point.X = MathUtils.Clamp(origin.X + Tools.GetRandomNumber(-3, 3), 0, Tools.MaxWidth);
+                point.Y = MathUtils.Clamp(origin.Y + Tools.GetRandomNumber(-3, 3), 0, Tools.MaxHeight);
 
                 Points.Add(point);
             }
