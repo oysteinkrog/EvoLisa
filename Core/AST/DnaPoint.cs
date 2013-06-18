@@ -6,22 +6,23 @@ namespace GenArt.AST
     [Serializable]
     public class DnaPoint
     {
-        public int X { get; set; }
-        public int Y { get; set; }
+        public int X { get; private set; }
+        public int Y { get; private set; }
 
-        public void Init()
+        public DnaPoint(int x, int y)
         {
-            X = Tools.GetRandomNumber(0, Tools.MaxWidth);
-            Y = Tools.GetRandomNumber(0, Tools.MaxHeight);
+            X = x;
+            Y = y;
+        }
+
+        public static DnaPoint GetRandom()
+        {
+            return new DnaPoint(Tools.GetRandomNumber(0, Tools.MaxWidth), Tools.GetRandomNumber(0, Tools.MaxHeight));
         }
 
         public DnaPoint Clone()
         {
-            return new DnaPoint
-                       {
-                           X = X,
-                           Y = Y,
-                       };
+            return new DnaPoint(X, Y);
         }
 
         public void Mutate(DnaDrawing drawing)

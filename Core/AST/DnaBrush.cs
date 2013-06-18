@@ -6,28 +6,31 @@ namespace GenArt.AST
     [Serializable]
     public class DnaBrush
     {
-        public int Red { get; set; }
-        public int Green { get; set; }
-        public int Blue { get; set; }
-        public int Alpha { get; set; }
+        public int Red { get; private set; }
+        public int Green { get; private set; }
+        public int Blue { get; private set; }
+        public int Alpha { get; private set; }
 
-        public void Init()
+        public DnaBrush(int red, int green, int blue, int alpha)
         {
-            Red = Tools.GetRandomNumber(0, 255);
-            Green = Tools.GetRandomNumber(0, 255);
-            Blue = Tools.GetRandomNumber(0, 255);
-            Alpha = Tools.GetRandomNumber(10, 60);
+            Red = red;
+            Green = green;
+            Blue = blue;
+            Alpha = alpha;
+        }
+
+        public static DnaBrush GetRandom()
+        {
+            return new DnaBrush(
+                Tools.GetRandomNumber(0, 255),
+                Tools.GetRandomNumber(0, 255),
+                Tools.GetRandomNumber(0, 255), 
+                Tools.GetRandomNumber(10, 60));
         }
 
         public DnaBrush Clone()
         {
-            return new DnaBrush
-                       {
-                           Alpha = Alpha,
-                           Blue = Blue,
-                           Green = Green,
-                           Red = Red,
-                       };
+            return new DnaBrush(Red, Green, Blue, Alpha);
         }
 
         public void Mutate(DnaDrawing drawing)

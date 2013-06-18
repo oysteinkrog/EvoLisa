@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Xml.Serialization;
 using GenArt.Classes;
 using System;
@@ -8,7 +9,13 @@ namespace GenArt.AST
     [Serializable]
     public class DnaDrawing
     {
-        public List<DnaPolygon> Polygons { get; set; }
+        public DnaDrawing(List<DnaPolygon> polygons, bool isDirty = true)
+        {
+            Polygons = polygons;
+            IsDirty = isDirty;
+        }
+
+        public List<DnaPolygon> Polygons { get; private set; }
 
         [XmlIgnore]
         public bool IsDirty { get; private set; }
@@ -29,78 +36,80 @@ namespace GenArt.AST
         {
             IsDirty = true;
         }
-
-        public void Init()
+        
+        public static DnaDrawing GetRandom()
         {
-            Polygons = new List<DnaPolygon>();
+            var polygons = new List<DnaPolygon>();
 
             for (int i = 0; i < Settings.ActivePolygonsMin; i++)
-                AddPolygon();
+            {
+                AddPolygon(polygons);
+            }
 
-            SetDirty();
+            return new DnaDrawing(polygons, true);
         }
 
         public DnaDrawing Clone()
         {
-            var drawing = new DnaDrawing();
-            drawing.Polygons = new List<DnaPolygon>();
-            foreach (DnaPolygon polygon in Polygons)
-                drawing.Polygons.Add(polygon.Clone());
-
-            return drawing;
+            var clonedPolygons = Polygons.Select(polygon => polygon.Clone()).ToList();
+            return new DnaDrawing(clonedPolygons, false);
         }
-
 
         public void Mutate()
         {
             if (Tools.WillMutate(Settings.ActiveAddPolygonMutationRate))
-                AddPolygon();
+            {
+                AddPolygon(Polygons);
+                SetDirty();
+            }
 
             if (Tools.WillMutate(Settings.ActiveRemovePolygonMutationRate))
-                RemovePolygon();
+            {
+                RemovePolygon(Polygons);
+                SetDirty();
+            }
 
             if (Tools.WillMutate(Settings.ActiveMovePolygonMutationRate))
-                MovePolygon();
+            {
+                MovePolygon(Polygons);
+                SetDirty();
+            }
 
             foreach (DnaPolygon polygon in Polygons)
                 polygon.Mutate(this);
         }
 
-        public void MovePolygon()
+        public static void MovePolygon(List<DnaPolygon> polygons)
         {
-            if (Polygons.Count < 1)
+            if (polygons.Count < 1)
                 return;
 
-            int index = Tools.GetRandomNumber(0, Polygons.Count);
-            DnaPolygon poly = Polygons[index];
-            Polygons.RemoveAt(index);
-            index = Tools.GetRandomNumber(0, Polygons.Count);
-            Polygons.Insert(index, poly);
-            SetDirty();
+            int index = Tools.GetRandomNumber(0, polygons.Count);
+            DnaPolygon poly = polygons[index];
+            polygons.RemoveAt(index);
+            index = Tools.GetRandomNumber(0, polygons.Count);
+            polygons.Insert(index, poly);
         }
 
-        public void RemovePolygon()
+        public static void RemovePolygon(List<DnaPolygon> polygons)
         {
-            if (Polygons.Count > Settings.ActivePolygonsMin)
+            if (polygons.Count > Settings.ActivePolygonsMin)
             {
-                int index = Tools.GetRandomNumber(0, Polygons.Count);
-                Polygons.RemoveAt(index);
-                SetDirty();
+                int index = Tools.GetRandomNumber(0, polygons.Count);
+                polygons.RemoveAt(index);
             }
         }
 
-        public void AddPolygon()
+        public static void AddPolygon(List<DnaPolygon> polygons)
         {
-            if (Polygons.Count < Settings.ActivePolygonsMax)
+            if (polygons.Count < Settings.ActivePolygonsMax)
             {
-                var newPolygon = new DnaPolygon();
-                newPolygon.Init();
+                var newPolygon = DnaPolygon.GetRandom();
+                int index = Tools.GetRandomNumber(0, polygons.Count);
 
-                int index = Tools.GetRandomNumber(0, Polygons.Count);
-
-                Polygons.Insert(index, newPolygon);
-                SetDirty();
+                polygons.Insert(index, newPolygon);
             }
         }
+
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using GenArt.Classes;
 
 namespace GenArt.AST
@@ -7,39 +8,41 @@ namespace GenArt.AST
     [Serializable]
     public class DnaPolygon
     {
-        public List<DnaPoint> Points { get; set; }
-        public DnaBrush Brush { get; set; }
+        public List<DnaPoint> Points { get; private set; }
+        public DnaBrush Brush { get; private set; }
 
-        public void Init()
+        public DnaPolygon(IEnumerable<DnaPoint> points, DnaBrush brush)
         {
-            Points = new List<DnaPoint>();
+            Points = points.ToList();
+            Brush = brush;
+        }
+
+        public static DnaPolygon GetRandom()
+        {
+            var points = new List<DnaPoint>();
 
             //int count = Tools.GetRandomNumber(3, 3);
-            var origin = new DnaPoint();
-            origin.Init();
+            var origin = DnaPoint.GetRandom();
 
             for (int i = 0; i < Settings.ActivePointsPerPolygonMin; i++)
             {
-                var point = new DnaPoint();
-                point.X = MathUtils.Clamp(origin.X + Tools.GetRandomNumber(-3, 3), 0, Tools.MaxWidth);
-                point.Y = MathUtils.Clamp(origin.Y + Tools.GetRandomNumber(-3, 3), 0, Tools.MaxHeight);
+                int clampedX = MathUtils.Clamp(origin.X + Tools.GetRandomNumber(-3, 3), 0, Tools.MaxWidth);
+                int clampedY = MathUtils.Clamp(origin.Y + Tools.GetRandomNumber(-3, 3), 0, Tools.MaxHeight);
+                var clampedPoint = new DnaPoint(clampedX, clampedY); 
 
-                Points.Add(point);
+                points.Add(clampedPoint);
             }
 
-            Brush = new DnaBrush();
-            Brush.Init();
+            var brush = DnaBrush.GetRandom();
+
+            return new DnaPolygon(points, brush);
         }
 
         public DnaPolygon Clone()
         {
-            var newPolygon = new DnaPolygon();
-            newPolygon.Points = new List<DnaPoint>();
-            newPolygon.Brush = Brush.Clone();
-            foreach (DnaPoint point in Points)
-                newPolygon.Points.Add(point.Clone());
-
-            return newPolygon;
+            var clonedPoints = Points.Select(point => point.Clone());
+            var clonedBrush = Brush.Clone();
+            return new DnaPolygon(clonedPoints, clonedBrush);
         }
 
         public void Mutate(DnaDrawing drawing)
@@ -74,16 +77,15 @@ namespace GenArt.AST
             {
                 if (drawing.PointCount < Settings.ActivePointsMax)
                 {
-                    var newPoint = new DnaPoint();
-
                     int index = Tools.GetRandomNumber(1, Points.Count - 1);
 
                     DnaPoint prev = Points[index - 1];
                     DnaPoint next = Points[index];
 
-                    newPoint.X = (prev.X + next.X)/2;
-                    newPoint.Y = (prev.Y + next.Y)/2;
+                    var newPointX = (prev.X + next.X)/2;
+                    var newPointY = (prev.Y + next.Y)/2;
 
+                    var newPoint = new DnaPoint(newPointX, newPointY);
 
                     Points.Insert(index, newPoint);
 

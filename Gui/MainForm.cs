@@ -43,8 +43,7 @@ namespace GenArt
 
         private static DnaDrawing GetNewInitializedDrawing()
         {
-            var drawing = new DnaDrawing();
-            drawing.Init();
+            var drawing = DnaDrawing.GetRandom();
             return drawing;
         }
 
