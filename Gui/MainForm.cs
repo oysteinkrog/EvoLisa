@@ -159,14 +159,14 @@ namespace GenArt
             int points = currentDrawing.PointCount;
             double avg = 0;
             if (polygons != 0)
-                avg = points/polygons;
+                avg = points/(double)polygons;
 
             toolStripStatusLabelFitness.Text = errorLevel.ToString();
             toolStripStatusLabelGeneration.Text = generation.ToString();
             toolStripStatusLabelSelected.Text = selected.ToString();
             toolStripStatusLabelPoints.Text = points.ToString();
             toolStripStatusLabelPolygons.Text = polygons.ToString();
-            toolStripStatusLabelAvgPoints.Text = avg.ToString();
+            toolStripStatusLabelAvgPoints.Text = string.Format("{0:0.00}", avg);
 
             bool shouldRepaint = false;
             if (repaintIntervall.Ticks > 0)
