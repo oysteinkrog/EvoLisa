@@ -67,6 +67,10 @@
     <Compile Include="AST\DnaDrawing.cs" />
     <Compile Include="AST\DnaPoint.cs" />
     <Compile Include="AST\DnaPolygon.cs" />
+    <Compile Include="AST\Mutation\DnaBrushMutateExtension.cs" />
+    <Compile Include="AST\Mutation\DnaDrawingMutateExtension.cs" />
+    <Compile Include="AST\Mutation\DnaPointMutateExtension.cs" />
+    <Compile Include="AST\Mutation\DnaPolygonMutateExtension.cs" />
     <Compile Include="Classes\FileUtil.cs" />
     <Compile Include="Classes\FitnessCalculator.cs" />
     <Compile Include="Classes\MathUtils.cs" />

@@ -3,12 +3,19 @@ using System.Linq;
 using System.Xml.Serialization;
 using GenArt.Classes;
 using System;
+using GenArt.Core.AST.Mutation;
 
 namespace GenArt.AST
 {
     [Serializable]
     public class DnaDrawing
     {
+        public DnaDrawing()
+        {
+            Polygons = new List<DnaPolygon>();
+            IsDirty = false;
+        }
+
         public DnaDrawing(List<DnaPolygon> polygons, bool isDirty = true)
         {
             Polygons = polygons;
@@ -36,17 +43,15 @@ namespace GenArt.AST
         {
             IsDirty = true;
         }
-        
+
         public static DnaDrawing GetRandom()
         {
-            var polygons = new List<DnaPolygon>();
-
+            var drawing = new DnaDrawing();
             for (int i = 0; i < Settings.ActivePolygonsMin; i++)
             {
-                AddPolygon(polygons);
+                drawing.AddPolygon();
             }
-
-            return new DnaDrawing(polygons, true);
+            return drawing;
         }
 
         public DnaDrawing Clone()
@@ -54,62 +59,5 @@ namespace GenArt.AST
             var clonedPolygons = Polygons.Select(polygon => polygon.Clone()).ToList();
             return new DnaDrawing(clonedPolygons, false);
         }
-
-        public void Mutate()
-        {
-            if (Tools.WillMutate(Settings.ActiveAddPolygonMutationRate))
-            {
-                AddPolygon(Polygons);
-                SetDirty();
-            }
-
-            if (Tools.WillMutate(Settings.ActiveRemovePolygonMutationRate))
-            {
-                RemovePolygon(Polygons);
-                SetDirty();
-            }
-
-            if (Tools.WillMutate(Settings.ActiveMovePolygonMutationRate))
-            {
-                MovePolygon(Polygons);
-                SetDirty();
-            }
-
-            foreach (DnaPolygon polygon in Polygons)
-                polygon.Mutate(this);
-        }
-
-        public static void MovePolygon(List<DnaPolygon> polygons)
-        {
-            if (polygons.Count < 1)
-                return;
-
-            int index = Tools.GetRandomNumber(0, polygons.Count);
-            DnaPolygon poly = polygons[index];
-            polygons.RemoveAt(index);
-            index = Tools.GetRandomNumber(0, polygons.Count);
-            polygons.Insert(index, poly);
-        }
-
-        public static void RemovePolygon(List<DnaPolygon> polygons)
-        {
-            if (polygons.Count > Settings.ActivePolygonsMin)
-            {
-                int index = Tools.GetRandomNumber(0, polygons.Count);
-                polygons.RemoveAt(index);
-            }
-        }
-
-        public static void AddPolygon(List<DnaPolygon> polygons)
-        {
-            if (polygons.Count < Settings.ActivePolygonsMax)
-            {
-                var newPolygon = DnaPolygon.GetRandom();
-                int index = Tools.GetRandomNumber(0, polygons.Count);
-
-                polygons.Insert(index, newPolygon);
-            }
-        }
-
     }
 }

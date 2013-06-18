@@ -6,6 +6,7 @@ using System.Threading;
 using System.Windows.Forms;
 using GenArt.AST;
 using GenArt.Classes;
+using GenArt.Core.AST.Mutation;
 
 namespace GenArt
 {
