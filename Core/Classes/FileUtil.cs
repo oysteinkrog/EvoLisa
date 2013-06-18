@@ -10,20 +10,24 @@ namespace GenArt.Core.Classes
 
         public static string GetSaveFileName(string filter)
         {
-            SaveFileDialog dialog = new SaveFileDialog();
-            dialog.Filter = filter;
-            if (!dialog.ShowDialog().Equals(DialogResult.Cancel))
-                return dialog.FileName;
-            return null;
+            using (SaveFileDialog dialog = new SaveFileDialog())
+            {
+                dialog.Filter = filter;
+                if (!dialog.ShowDialog().Equals(DialogResult.Cancel))
+                    return dialog.FileName;
+                return null;
+            }
         }
 
         public static string GetOpenFileName(string filter)
         {
-            OpenFileDialog dialog = new OpenFileDialog();
-            dialog.Filter = filter;
-            if (!dialog.ShowDialog().Equals(DialogResult.Cancel))
-                return dialog.FileName;
-            return null;
+            using (OpenFileDialog dialog = new OpenFileDialog())
+            {
+                dialog.Filter = filter;
+                if (!dialog.ShowDialog().Equals(DialogResult.Cancel))
+                    return dialog.FileName;
+                return null;
+            }
         }
     }
 }
