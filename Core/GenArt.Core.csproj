@@ -78,6 +78,7 @@
     <Compile Include="Classes\Serializer.cs" />
     <Compile Include="Classes\Settings.cs" />
     <Compile Include="Classes\Tools.cs" />
+    <Compile Include="EvolutionEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
