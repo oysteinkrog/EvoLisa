@@ -1,7 +1,7 @@
 ﻿using System;
-using GenArt.Classes;
+using GenArt.Core.Classes;
 
-namespace GenArt.AST
+namespace GenArt.Core.AST
 {
     [Serializable]
     public class DnaPoint

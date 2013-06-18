@@ -1,8 +1,8 @@
 ﻿using System.Drawing;
 using System.Drawing.Imaging;
-using GenArt.AST;
+using GenArt.Core.AST;
 
-namespace GenArt.Classes
+namespace GenArt.Core.Classes
 {
     public static class FitnessCalculator
     {

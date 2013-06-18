@@ -4,9 +4,9 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Threading;
 using System.Windows.Forms;
-using GenArt.AST;
-using GenArt.Classes;
+using GenArt.Core.AST;
 using GenArt.Core.AST.Mutation;
+using GenArt.Core.Classes;
 
 namespace GenArt
 {

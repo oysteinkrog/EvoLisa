@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Imaging;
+using GenArt.Core.AST;
 
-using GenArt.AST;
-
-namespace GenArt.Classes
+namespace GenArt.Core.Classes
 {
     public static class Renderer
     {

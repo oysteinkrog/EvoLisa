@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using GenArt.Classes;
+using GenArt.Core.Classes;
 
-namespace GenArt.AST
+namespace GenArt.Core.AST
 {
     [Serializable]
     public class DnaPolygon

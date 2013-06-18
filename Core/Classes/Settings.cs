@@ -1,4 +1,4 @@
-﻿namespace GenArt.Classes
+﻿namespace GenArt.Core.Classes
 {
     public class Settings
     {

@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
-using GenArt.Classes;
-using System;
 using GenArt.Core.AST.Mutation;
+using GenArt.Core.Classes;
 
-namespace GenArt.AST
+namespace GenArt.Core.AST
 {
     [Serializable]
     public class DnaDrawing

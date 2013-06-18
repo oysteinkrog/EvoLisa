@@ -1,5 +1,4 @@
-﻿using GenArt.AST;
-using GenArt.Classes;
+﻿using GenArt.Core.Classes;
 
 namespace GenArt.Core.AST.Mutation
 {

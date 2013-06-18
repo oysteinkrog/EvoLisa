@@ -1,7 +1,7 @@
-﻿using GenArt.Classes;
-using System;
+﻿using System;
+using GenArt.Core.Classes;
 
-namespace GenArt.AST
+namespace GenArt.Core.AST
 {
     [Serializable]
     public class DnaBrush

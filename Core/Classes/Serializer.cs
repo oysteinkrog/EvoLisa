@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-
-using System.Text;
-using System.Xml.Serialization;
 using System.IO;
-using System.Windows.Forms;
-using GenArt.AST;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Windows.Forms;
+using System.Xml.Serialization;
+using GenArt.Core.AST;
 
-namespace GenArt.Classes
+namespace GenArt.Core.Classes
 {
     public static class Serializer
     {

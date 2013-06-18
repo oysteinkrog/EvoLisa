@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Windows.Forms;
 
-using System.Text;
-using System.Windows.Forms;
-
-namespace GenArt.Classes
+namespace GenArt.Core.Classes
 {
     public static class FileUtil
     {

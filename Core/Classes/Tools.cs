@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GenArt.Classes
+namespace GenArt.Core.Classes
 {
     public static class Tools
     {
