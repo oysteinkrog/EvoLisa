@@ -17,12 +17,12 @@ namespace GenArt.Core
         private int _selected;
 
         private Thread _thread;
-        private readonly FitnessCalculator _fitnessCalculator;
+        private readonly NewFitnessCalculator _fitnessCalculator;
 
         public EvolutionEngine(Bitmap sourceBitmap)
         {
             _sourceBitmap = sourceBitmap;
-            _fitnessCalculator = new FitnessCalculator(sourceBitmap);
+            _fitnessCalculator = new NewFitnessCalculator(sourceBitmap);
         }
 
         public bool IsRunning { get; private set; }
