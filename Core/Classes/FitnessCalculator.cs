@@ -1,12 +1,39 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Drawing.Imaging;
 using GenArt.Core.AST;
 
 namespace GenArt.Core.Classes
 {
-    public static class FitnessCalculator
+    public class FitnessCalculator
     {
-        public static double GetDrawingFitness(DnaDrawing newDrawing, Color[,] sourceColors)
+        private readonly Color[,] _sourceColors;
+
+        public FitnessCalculator(Bitmap sourceImage)
+        {
+            _sourceColors = GenerateSourceColorMatrix(sourceImage);
+        }
+
+        //covnerts the source image to a Color[,] for faster lookup
+        private static Color[,] GenerateSourceColorMatrix(Bitmap sourceImage)
+        {
+            if (sourceImage == null)
+                throw new NotSupportedException("A source image of Bitmap format must be provided");
+
+            var sourceColors = new Color[sourceImage.Width, sourceImage.Height];
+
+            for (int y = 0; y < sourceImage.Height; y++)
+            {
+                for (int x = 0; x < sourceImage.Width; x++)
+                {
+                    Color c = sourceImage.GetPixel(x, y);
+                    sourceColors[x, y] = c;
+                }
+            }
+            return sourceColors;
+        }
+
+        public double GetDrawingFitness(DnaDrawing newDrawing)
         {
             double error = 0;
 
@@ -24,7 +51,7 @@ namespace GenArt.Core.Classes
                     for (int x = 0; x < b.Width; x++)
                     {
                         Color c1 = GetPixel(bmd1, x, y);
-                        Color c2 = sourceColors[x, y];
+                        Color c2 = _sourceColors[x, y];
 
                         double pixelError = GetColorFitness(c1, c2);
                         error += pixelError;

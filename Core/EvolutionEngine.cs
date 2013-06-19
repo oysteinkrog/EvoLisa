@@ -15,13 +15,14 @@ namespace GenArt.Core
         private double _errorLevel = double.MaxValue;
         private int _generation;
         private int _selected;
-        private Color[,] _sourceColors;
 
         private Thread _thread;
+        private readonly FitnessCalculator _fitnessCalculator;
 
         public EvolutionEngine(Bitmap sourceBitmap)
         {
             _sourceBitmap = sourceBitmap;
+            _fitnessCalculator = new FitnessCalculator(sourceBitmap);
         }
 
         public bool IsRunning { get; private set; }
@@ -80,7 +81,6 @@ namespace GenArt.Core
 
         private void StartEvolution()
         {
-            SetupSourceColorMatrix(_sourceBitmap);
             if (_currentDrawing == null)
                 _currentDrawing = GetNewInitializedDrawing(_sourceBitmap.Width, _sourceBitmap.Height);
 
@@ -97,7 +97,7 @@ namespace GenArt.Core
                 {
                     _generation++;
 
-                    double newErrorLevel = FitnessCalculator.GetDrawingFitness(newDrawing, _sourceColors);
+                    double newErrorLevel = _fitnessCalculator.GetDrawingFitness(newDrawing);
 
                     if (newErrorLevel <= _errorLevel)
                     {
@@ -120,24 +120,6 @@ namespace GenArt.Core
                 _thread.Abort();
             }
             _thread = null;
-        }
-
-        //covnerts the source image to a Color[,] for faster lookup
-        private void SetupSourceColorMatrix(Bitmap sourceImage)
-        {
-            _sourceColors = new Color[sourceImage.Width, sourceImage.Height];
-
-            if (sourceImage == null)
-                throw new NotSupportedException("A source image of Bitmap format must be provided");
-
-            for (int y = 0; y < sourceImage.Height; y++)
-            {
-                for (int x = 0; x < sourceImage.Width; x++)
-                {
-                    Color c = sourceImage.GetPixel(x, y);
-                    _sourceColors[x, y] = c;
-                }
-            }
         }
 
         public void SaveDNA(string fileName)
