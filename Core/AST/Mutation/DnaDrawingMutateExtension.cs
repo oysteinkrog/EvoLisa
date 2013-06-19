@@ -1,4 +1,5 @@
-﻿using GenArt.Core.Classes;
+﻿using System.Security.Principal;
+using GenArt.Core.Classes;
 
 namespace GenArt.Core.AST.Mutation
 {
@@ -55,7 +56,7 @@ namespace GenArt.Core.AST.Mutation
         {
             if (dnaDrawing.Polygons.Count < Settings.ActivePolygonsMax)
             {
-                var newPolygon = DnaPolygon.GetRandom();
+                var newPolygon = DnaPolygon.GetRandom(dnaDrawing.Width, dnaDrawing.Height);
                 int index = Tools.GetRandomNumber(0, dnaDrawing.Polygons.Count);
 
                 dnaDrawing.Polygons.Insert(index, newPolygon);

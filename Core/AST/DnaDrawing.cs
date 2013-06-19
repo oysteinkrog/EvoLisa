@@ -10,13 +10,16 @@ namespace GenArt.Core.AST
     [Serializable]
     public class DnaDrawing
     {
-        public DnaDrawing()
+        public DnaDrawing(int width, int height)
         {
+            Width = width;
+            Height = height;
             Polygons = new List<DnaPolygon>();
             IsDirty = false;
         }
 
-        public DnaDrawing(List<DnaPolygon> polygons, bool isDirty = true)
+        public DnaDrawing(int width, int height, List<DnaPolygon> polygons, bool isDirty = true):
+            this(width, height)
         {
             Polygons = polygons;
             IsDirty = isDirty;
@@ -26,6 +29,12 @@ namespace GenArt.Core.AST
 
         [XmlIgnore]
         public bool IsDirty { get; private set; }
+
+        [XmlIgnore]
+        public int Width { get; set; }
+
+        [XmlIgnore]
+        public int Height { get; set; }
 
         public int PointCount
         {
@@ -44,9 +53,9 @@ namespace GenArt.Core.AST
             IsDirty = true;
         }
 
-        public static DnaDrawing GetRandom()
+        public static DnaDrawing GetRandom(int width, int height)
         {
-            var drawing = new DnaDrawing();
+            var drawing = new DnaDrawing(width, height);
             for (int i = 0; i < Settings.ActivePolygonsMin; i++)
             {
                 drawing.AddPolygon();
@@ -57,7 +66,7 @@ namespace GenArt.Core.AST
         public DnaDrawing Clone()
         {
             var clonedPolygons = Polygons.Select(polygon => polygon.Clone()).ToList();
-            return new DnaDrawing(clonedPolygons, false);
+            return new DnaDrawing(Width, Height, clonedPolygons, false);
         }
     }
 }

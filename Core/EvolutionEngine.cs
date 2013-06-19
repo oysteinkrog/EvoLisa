@@ -48,9 +48,9 @@ namespace GenArt.Core
             };
         }
 
-        private static DnaDrawing GetNewInitializedDrawing()
+        private static DnaDrawing GetNewInitializedDrawing(int width, int height)
         {
-            DnaDrawing drawing = DnaDrawing.GetRandom();
+            DnaDrawing drawing = DnaDrawing.GetRandom(width, height);
             return drawing;
         }
 
@@ -82,7 +82,7 @@ namespace GenArt.Core
         {
             SetupSourceColorMatrix(_sourceBitmap);
             if (_currentDrawing == null)
-                _currentDrawing = GetNewInitializedDrawing();
+                _currentDrawing = GetNewInitializedDrawing(_sourceBitmap.Width, _sourceBitmap.Height);
 
             while (IsRunning)
             {
@@ -112,7 +112,7 @@ namespace GenArt.Core
                 //else, discard new drawing
             }
         }
-
+        
         private void KillThread()
         {
             if (_thread != null)
@@ -125,14 +125,14 @@ namespace GenArt.Core
         //covnerts the source image to a Color[,] for faster lookup
         private void SetupSourceColorMatrix(Bitmap sourceImage)
         {
-            _sourceColors = new Color[Tools.MaxWidth, Tools.MaxHeight];
+            _sourceColors = new Color[sourceImage.Width, sourceImage.Height];
 
             if (sourceImage == null)
                 throw new NotSupportedException("A source image of Bitmap format must be provided");
 
-            for (int y = 0; y < Tools.MaxHeight; y++)
+            for (int y = 0; y < sourceImage.Height; y++)
             {
-                for (int x = 0; x < Tools.MaxWidth; x++)
+                for (int x = 0; x < sourceImage.Width; x++)
                 {
                     Color c = sourceImage.GetPixel(x, y);
                     _sourceColors[x, y] = c;
@@ -162,11 +162,15 @@ namespace GenArt.Core
             if (drawing != null)
             {
                 if (_currentDrawing == null)
-                    _currentDrawing = GetNewInitializedDrawing();
-
-                lock (_currentDrawing)
                 {
                     _currentDrawing = drawing;
+                }
+                else
+                {
+                    lock (_currentDrawing)
+                    {
+                        _currentDrawing = drawing;
+                    }
                 }
                 return true;
             }

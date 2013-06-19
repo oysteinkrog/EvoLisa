@@ -17,17 +17,17 @@ namespace GenArt.Core.AST
             Brush = brush;
         }
 
-        public static DnaPolygon GetRandom()
+        public static DnaPolygon GetRandom(int maxX, int maxY)
         {
             var points = new List<DnaPoint>();
 
             //int count = Tools.GetRandomNumber(3, 3);
-            var origin = DnaPoint.GetRandom();
+            var origin = DnaPoint.GetRandom(maxX, maxY);
 
             for (int i = 0; i < Settings.ActivePointsPerPolygonMin; i++)
             {
-                int clampedX = MathUtils.Clamp(origin.X + Tools.GetRandomNumber(-3, 3), 0, Tools.MaxWidth);
-                int clampedY = MathUtils.Clamp(origin.Y + Tools.GetRandomNumber(-3, 3), 0, Tools.MaxHeight);
+                int clampedX = MathUtils.Clamp(origin.X + Tools.GetRandomNumber(-3, 3), 0, maxX);
+                int clampedY = MathUtils.Clamp(origin.Y + Tools.GetRandomNumber(-3, 3), 0, maxY);
                 var clampedPoint = new DnaPoint(clampedX, clampedY);
 
                 points.Add(clampedPoint);

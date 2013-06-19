@@ -15,9 +15,9 @@ namespace GenArt.Core.AST
             Y = y;
         }
 
-        public static DnaPoint GetRandom()
+        public static DnaPoint GetRandom(int maxX, int maxY)
         {
-            return new DnaPoint(Tools.GetRandomNumber(0, Tools.MaxWidth), Tools.GetRandomNumber(0, Tools.MaxHeight));
+            return new DnaPoint(Tools.GetRandomNumber(0, maxX), Tools.GetRandomNumber(0, maxY));
         }
 
         public DnaPoint Clone()

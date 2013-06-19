@@ -13,9 +13,6 @@ namespace GenArt.Core.Classes
             return random.Next(min, max);
         }
 
-        public static int MaxWidth = 200;
-        public static int MaxHeight = 200;
-
         public static bool WillMutate(int mutationRate)
         {
             if (GetRandomNumber(0, mutationRate) == 1)

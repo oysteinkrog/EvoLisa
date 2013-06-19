@@ -127,9 +127,6 @@ namespace GenArt
 
             _evolutionEngine = new EvolutionEngine(picPattern.Image as Bitmap);
 
-            Tools.MaxHeight = picPattern.Height;
-            Tools.MaxWidth = picPattern.Width;
-
             SetCanvasSize();
 
             splitContainer1.SplitterDistance = picPattern.Width + 30;

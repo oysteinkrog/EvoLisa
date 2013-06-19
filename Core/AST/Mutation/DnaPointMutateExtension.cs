@@ -8,8 +8,8 @@ namespace GenArt.Core.AST.Mutation
         {
             if (Tools.WillMutate(Settings.ActiveMovePointMaxMutationRate))
             {
-                dnaPoint.X = Tools.GetRandomNumber(0, Tools.MaxWidth);
-                dnaPoint.Y = Tools.GetRandomNumber(0, Tools.MaxHeight);
+                dnaPoint.X = Tools.GetRandomNumber(0, dnaDrawing.Width);
+                dnaPoint.Y = Tools.GetRandomNumber(0, dnaDrawing.Height);
                 dnaDrawing.SetDirty();
             }
 
@@ -19,13 +19,13 @@ namespace GenArt.Core.AST.Mutation
                     MathUtils.Clamp(
                         dnaPoint.X +
                         Tools.GetRandomNumber(-Settings.ActiveMovePointRangeMid, Settings.ActiveMovePointRangeMid), 0,
-                        Tools.MaxWidth);
+                        dnaDrawing.Width);
 
                 dnaPoint.Y =
                     MathUtils.Clamp(
                         dnaPoint.Y +
                         Tools.GetRandomNumber(-Settings.ActiveMovePointRangeMid, Settings.ActiveMovePointRangeMid), 0,
-                        Tools.MaxHeight);
+                        dnaDrawing.Height);
 
                 dnaDrawing.SetDirty();
             }
@@ -36,13 +36,13 @@ namespace GenArt.Core.AST.Mutation
                     MathUtils.Clamp(
                         dnaPoint.X +
                         Tools.GetRandomNumber(-Settings.ActiveMovePointRangeMin, Settings.ActiveMovePointRangeMin), 0,
-                        Tools.MaxWidth);
+                        dnaDrawing.Width);
 
                 dnaPoint.Y =
                     MathUtils.Clamp(
                         dnaPoint.Y +
                         Tools.GetRandomNumber(-Settings.ActiveMovePointRangeMin, Settings.ActiveMovePointRangeMin), 0,
-                        Tools.MaxHeight);
+                        dnaDrawing.Height);
 
                 dnaDrawing.SetDirty();
             }

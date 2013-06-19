@@ -10,18 +10,18 @@ namespace GenArt.Core.Classes
         {
             double error = 0;
 
-            using (var b = new Bitmap(Tools.MaxWidth, Tools.MaxHeight, PixelFormat.Format24bppRgb))
+            using (var b = new Bitmap(newDrawing.Width, newDrawing.Height, PixelFormat.Format24bppRgb))
             using (Graphics g = Graphics.FromImage(b))
             {
                 Renderer.Render(newDrawing, g, 1);
 
-                BitmapData bmd1 = b.LockBits(new Rectangle(0, 0, Tools.MaxWidth, Tools.MaxHeight), ImageLockMode.ReadOnly,
+                BitmapData bmd1 = b.LockBits(new Rectangle(0, 0, b.Width, b.Height), ImageLockMode.ReadOnly,
                                              PixelFormat.Format24bppRgb);
 
 
-                for (int y = 0; y < Tools.MaxHeight; y++)
+                for (int y = 0; y < b.Height; y++)
                 {
-                    for (int x = 0; x < Tools.MaxWidth; x++)
+                    for (int x = 0; x < b.Width; x++)
                     {
                         Color c1 = GetPixel(bmd1, x, y);
                         Color c2 = sourceColors[x, y];
