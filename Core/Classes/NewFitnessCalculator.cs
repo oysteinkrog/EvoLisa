@@ -1,4 +1,5 @@
-﻿using GenArt.Core.AST;
+﻿using System.Runtime.InteropServices;
+using GenArt.Core.AST;
 using System;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -6,6 +7,7 @@ using GenArt.Core.AST;
 
 namespace GenArt.Core.Classes
 {
+    [StructLayout(LayoutKind.Sequential)]
     public struct Pixel
     {
         public byte B;
