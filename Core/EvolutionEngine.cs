@@ -18,6 +18,7 @@ namespace GenArt.Core
 
         private Thread _thread;
         private readonly NewFitnessCalculator _fitnessCalculator;
+        private long _candidates;
 
         public EvolutionEngine(Bitmap sourceBitmap)
         {
@@ -93,12 +94,14 @@ namespace GenArt.Core
                 }
                 newDrawing.Mutate();
 
+                _candidates++;
+
                 if (newDrawing.IsDirty)
                 {
                     _generation++;
 
                     double newErrorLevel = _fitnessCalculator.GetDrawingFitness(newDrawing);
-
+                    
                     if (newErrorLevel <= _errorLevel)
                     {
                         _selected++;
@@ -107,6 +110,11 @@ namespace GenArt.Core
                             _currentDrawing = newDrawing;
                         }
                         _errorLevel = newErrorLevel;
+                        
+                        Console.WriteLine("{0} {1} {2}",
+                                          _selected,
+                                          _generation,
+                                          _errorLevel);
                     }
                 }
                 //else, discard new drawing
