@@ -9,20 +9,26 @@ namespace GenArt.Core.AST.Mutation
         {
             if (Tools.WillMutate(Settings.ActiveAddPolygonMutationRate))
             {
-                dnaDrawing.AddPolygon();
-                dnaDrawing.SetDirty();
+                if (dnaDrawing.AddPolygon())
+                {
+                    dnaDrawing.SetDirty();
+                }
             }
 
             if (Tools.WillMutate(Settings.ActiveRemovePolygonMutationRate))
             {
-                dnaDrawing.RemovePolygon();
-                dnaDrawing.SetDirty();
+                if (dnaDrawing.RemovePolygon())
+                {
+                    dnaDrawing.SetDirty();
+                }
             }
 
             if (Tools.WillMutate(Settings.ActiveMovePolygonMutationRate))
             {
-                dnaDrawing.MovePolygon();
-                dnaDrawing.SetDirty();
+                if (dnaDrawing.MovePolygon())
+                {
+                    dnaDrawing.SetDirty();
+                }
             }
 
             foreach (DnaPolygon polygon in dnaDrawing.Polygons)
@@ -31,28 +37,31 @@ namespace GenArt.Core.AST.Mutation
             }
         }
 
-        public static void MovePolygon(this DnaDrawing dnaDrawing)
+        public static bool MovePolygon(this DnaDrawing dnaDrawing)
         {
             if (dnaDrawing.Polygons.Count < 1)
-                return;
+                return false;
 
             int index = Tools.GetRandomNumber(0, dnaDrawing.Polygons.Count);
             DnaPolygon poly = dnaDrawing.Polygons[index];
             dnaDrawing.Polygons.RemoveAt(index);
             index = Tools.GetRandomNumber(0, dnaDrawing.Polygons.Count);
             dnaDrawing.Polygons.Insert(index, poly);
+            return true;
         }
 
-        public static void RemovePolygon(this DnaDrawing dnaDrawing)
+        public static bool RemovePolygon(this DnaDrawing dnaDrawing)
         {
             if (dnaDrawing.Polygons.Count > Settings.ActivePolygonsMin)
             {
                 int index = Tools.GetRandomNumber(0, dnaDrawing.Polygons.Count);
                 dnaDrawing.Polygons.RemoveAt(index);
+                return true;
             }
+            return false;
         }
 
-        public static void AddPolygon(this DnaDrawing dnaDrawing)
+        public static bool AddPolygon(this DnaDrawing dnaDrawing)
         {
             if (dnaDrawing.Polygons.Count < Settings.ActivePolygonsMax)
             {
@@ -60,7 +69,9 @@ namespace GenArt.Core.AST.Mutation
                 int index = Tools.GetRandomNumber(0, dnaDrawing.Polygons.Count);
 
                 dnaDrawing.Polygons.Insert(index, newPolygon);
+                return true;
             }
+            return false;
         }
 
     }
