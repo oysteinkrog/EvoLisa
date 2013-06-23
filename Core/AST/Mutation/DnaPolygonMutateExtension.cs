@@ -7,16 +7,26 @@ namespace GenArt.Core.AST.Mutation
         public static void Mutate(this DnaPolygon dnaPolygon, DnaDrawing drawing)
         {
             if (Tools.WillMutate(Settings.ActiveAddPointMutationRate))
-                dnaPolygon.AddPoint(drawing);
+            {
+                if (dnaPolygon.AddPoint(drawing))
+                {
+                    drawing.SetDirty();
+                }
+            }
 
             if (Tools.WillMutate(Settings.ActiveRemovePointMutationRate))
-                dnaPolygon.RemovePoint(drawing);
+            {
+                if (dnaPolygon.RemovePoint(drawing))
+                {
+                    drawing.SetDirty();
+                }
+            }
 
             dnaPolygon.Brush.Mutate(drawing);
             dnaPolygon.Points.ForEach(p => p.Mutate(drawing));
         }
 
-        private static void RemovePoint(this DnaPolygon dnaPolygon, DnaDrawing drawing)
+        private static bool RemovePoint(this DnaPolygon dnaPolygon, DnaDrawing drawing)
         {
             if (dnaPolygon.Points.Count > Settings.ActivePointsPerPolygonMin)
             {
@@ -24,13 +34,13 @@ namespace GenArt.Core.AST.Mutation
                 {
                     int index = Tools.GetRandomNumber(0, dnaPolygon.Points.Count);
                     dnaPolygon.Points.RemoveAt(index);
-
-                    drawing.SetDirty();
+                    return true;
                 }
             }
+            return false;
         }
 
-        private static void AddPoint(this DnaPolygon dnaPolygon, DnaDrawing drawing)
+        private static bool AddPoint(this DnaPolygon dnaPolygon, DnaDrawing drawing)
         {
             if (dnaPolygon.Points.Count < Settings.ActivePointsPerPolygonMax)
             {
@@ -48,9 +58,10 @@ namespace GenArt.Core.AST.Mutation
 
                     dnaPolygon.Points.Insert(index, newPoint);
 
-                    drawing.SetDirty();
+                    return true;
                 }
             }
+            return false;
         }
     }
 }
